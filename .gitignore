@@ -1,7 +1,27 @@
+# Rust build artifacts
 target/
-.DS_Store
-.idea/
+**/*.rs.bk
+Cargo.lock
+
+# Rust generated files
+*.pdb
+*.exe
+*.dll
+*.so
+*.dylib
+*.rlib
+*.rmeta
+
+# IDE and editor files
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment files
 .env
 .env.local
 .env.development.local
@@ -10,4 +30,55 @@ target/
 .env.development
 .env.test
 .env.production
-Cargo.lock
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+logs/
+tmp/
+temp/
+
+# Documentation build artifacts
+doc/
+docs/target/
+
+# Benchmark results
+target/criterion/
+
+# Profiling data
+*.prof
+*.profraw
+
+# Coverage reports
+target/llvm-cov-target/
+*.profdata
+
+# Backup files
+*.bak
+*.backup
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows specific
+*.lnk
+
+# macOS specific
+.AppleDouble
+.LSOverride
+
+# Linux specific
+*~
+
+# Project specific
+velora_browser_windows.exe
+velora_browser_windows.pdb
+velora_browser.exe
+velora_browser.pdb
