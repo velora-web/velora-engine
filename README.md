@@ -50,7 +50,7 @@ velora-engine/
 
 ```bash
 # Clone this AI-crafted masterpiece
-git clone https://github.com/velora/velora-engine.git
+git clone https://github.com/velora-web/velora-engine.git
 cd velora-engine
 
 # Build the project (watch the AI magic happen)
