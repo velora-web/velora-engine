@@ -1,0 +1,60 @@
+[workspace]
+resolver = "2"
+members = [
+    "velora_core",
+    "velora_dom",
+    "velora_parser",
+    "velora_layout",
+    "velora_paint",
+    "velora_net",
+    "velora_jsrt",
+    "velora_platform",
+    "velora_browser"
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Velora Engine Team"]
+description = "A modular web engine built in Rust"
+license = "MIT"
+repository = "https://github.com/velora/velora-engine"
+
+[workspace.dependencies]
+# Core dependencies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+anyhow = "1.0"
+log = "0.4"
+env_logger = "0.10"
+
+# Async runtime
+tokio = { version = "1.0", features = ["full"] }
+
+# Graphics and rendering
+wgpu = "0.19"
+winit = "0.29"
+raw-window-handle = "0.6"
+
+# DOM and HTML parsing
+html5ever = "0.26"
+markup5ever = "0.11"
+tendril = "0.4"
+
+# CSS parsing and styling
+cssparser = "0.33"
+selectors = "0.25"
+
+# JavaScript runtime - simplified for now
+# deno_core = "0.222"
+# deno_runtime = "0.222"
+
+# Networking
+reqwest = { version = "0.11", features = ["json"] }
+url = "2.4"
+
+# Utilities
+uuid = { version = "1.0", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+urlencoding = "2.1"

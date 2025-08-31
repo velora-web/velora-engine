@@ -1,0 +1,17 @@
+[package]
+name = "velora_core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Core types and utilities for the Velora web engine"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+uuid = { workspace = true, features = ["v4", "serde"] }
+chrono = { workspace = true, features = ["serde"] }
+log = { workspace = true }
+urlencoding = { workspace = true }

@@ -1,0 +1,16 @@
+[package]
+name = "velora_paint"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Rendering engine for the Velora web engine"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+velora_core = { path = "../velora_core" }
+velora_dom = { path = "../velora_dom" }
+velora_layout = { path = "../velora_layout" }
+wgpu = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+log = { workspace = true }

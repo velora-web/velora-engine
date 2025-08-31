@@ -1,0 +1,33 @@
+[package]
+name = "velora_browser"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Main browser application that integrates all Velora web engine subsystems"
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "velora_browser"
+path = "src/main.rs"
+
+[dependencies]
+velora_core = { path = "../velora_core" }
+velora_dom = { path = "../velora_dom" }
+velora_parser = { path = "../velora_parser" }
+velora_layout = { path = "../velora_layout" }
+velora_paint = { path = "../velora_paint" }
+velora_net = { path = "../velora_net" }
+velora_jsrt = { path = "../velora_jsrt" }
+velora_platform = { path = "../velora_platform" }
+
+# Standard library dependencies
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+log = { workspace = true }
+env_logger = "0.10"
+anyhow = { workspace = true }
+clap = { version = "4.0", features = ["derive"] }
+
+

@@ -1,0 +1,17 @@
+[package]
+name = "velora_dom"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "DOM implementation for the Velora web engine"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+velora_core = { path = "../velora_core" }
+html5ever = { workspace = true }
+markup5ever = { workspace = true }
+tendril = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+log = { workspace = true }

@@ -1,0 +1,18 @@
+[package]
+name = "velora_net"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Network layer for the Velora web engine"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+velora_core = { path = "../velora_core" }
+reqwest = { workspace = true, features = ["json"] }
+url = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+log = { workspace = true }
+anyhow = { workspace = true }

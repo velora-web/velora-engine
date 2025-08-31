@@ -1,0 +1,18 @@
+[package]
+name = "velora_platform"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Cross-platform window management and graphics for the Velora web engine"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+velora_core = { path = "../velora_core" }
+wgpu = { workspace = true }
+winit = { workspace = true }
+raw-window-handle = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+log = { workspace = true }
+anyhow = { workspace = true }

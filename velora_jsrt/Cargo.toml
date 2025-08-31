@@ -1,0 +1,17 @@
+[package]
+name = "velora_jsrt"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "JavaScript runtime for the Velora web engine"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+velora_core = { path = "../velora_core" }
+velora_dom = { path = "../velora_dom" }
+tokio = { workspace = true, features = ["full"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+log = { workspace = true }
+anyhow = { workspace = true }

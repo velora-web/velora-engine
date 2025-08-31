@@ -1,0 +1,19 @@
+[package]
+name = "velora_parser"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "HTML and CSS parser for the Velora web engine"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+velora_core = { path = "../velora_core" }
+velora_dom = { path = "../velora_dom" }
+html5ever = { workspace = true }
+markup5ever = { workspace = true }
+tendril = { workspace = true }
+cssparser = { workspace = true }
+selectors = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+log = { workspace = true }

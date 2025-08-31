@@ -1,0 +1,88 @@
+---
+alwaysApply: true
+---
+
+# Rust Web Engine – Repository Rules
+
+## Scope & Architecture
+- Build a modular **Cargo workspace**: crates `parser`, `dom`, `css`, `layout`, `paint`, `net`, `jsrt`, and top-level `cinder_browser`.
+- Keep crates **loosely coupled** with clear boundaries. No cross-crate reach-ins; communicate via traits and stable APIs.
+- Prefer **no_std**-friendly code in lower layers when feasible; isolate OS/GUI behind adapters.
+
+## Implementation Guidelines
+- Language: **Rust stable**, 2021+ edition. Clippy must pass on `-D warnings`.
+- Error handling: `thiserror` for library errors, `anyhow` only in binaries/tests.
+- Perf: avoid needless allocs; reuse buffers; prefer `&[u8]`/`SmallVec` where appropriate.
+- Feature flags control heavy deps (e.g., `wgpu`, `harfbuzz`, `reqwest`).
+- Testing: unit tests per crate; integration tests in `cinder_browser/tests/`.
+- Style: follow `rustfmt`; public APIs are `#[doc = "…"]` documented with examples.
+
+## Build & Commands (the agent should run these)
+- `cargo clippy --workspace --all-features -- -D warnings`
+- `cargo test --workspace --all-features`
+- `cargo run -p cinder_browser --example minimal`
+
+## External Tools & Context
+- You **may** use **Context7 MCP** to fetch up-to-date docs/specs when uncertain (HTML/CSS specs, wgpu, harfbuzz, etc.).
+- Prefer primary sources; include permalinks in PR descriptions.
+
+## Boundaries per crate
+- `parser`: HTML5 tokenizer/state machine (spec-driven), produces DOM nodes.
+- `css`: parser + selector engine; cascade & computed styles.
+- `layout`: block/inline layout; later: flex, text shaping hooks.
+- `paint`: display list + backends (software raster first; `wgpu` optional).
+- `net`: HTTP(S), caching, gzip/deflate; async via `tokio` feature.
+- `jsrt`: embed JS engine later (trait boundary now, impl behind feature).
+
+## Definition of Done (for AI and humans)
+- Compiles on Windows/macOS/Linux.
+- New APIs have examples and tests.
+- Benchmarks added for hot paths.
+- No broken docs: `cargo doc --no-deps` passes.
+
+## Things to avoid
+- Over-eager dependencies; keep core minimal.
+- Leaking platform types across crate boundaries.
+- Unbounded `unsafe`; if needed, document invariants and add tests/fuzzing.
+# Rust Web Engine – Repository Rules
+
+## Scope & Architecture
+- Build a modular **Cargo workspace**: crates `parser`, `dom`, `css`, `layout`, `paint`, `net`, `jsrt`, and top-level `cinder_browser`.
+- Keep crates **loosely coupled** with clear boundaries. No cross-crate reach-ins; communicate via traits and stable APIs.
+- Prefer **no_std**-friendly code in lower layers when feasible; isolate OS/GUI behind adapters.
+
+## Implementation Guidelines
+- Language: **Rust stable**, 2021+ edition. Clippy must pass on `-D warnings`.
+- Error handling: `thiserror` for library errors, `anyhow` only in binaries/tests.
+- Perf: avoid needless allocs; reuse buffers; prefer `&[u8]`/`SmallVec` where appropriate.
+- Feature flags control heavy deps (e.g., `wgpu`, `harfbuzz`, `reqwest`).
+- Testing: unit tests per crate; integration tests in `cinder_browser/tests/`.
+- Style: follow `rustfmt`; public APIs are `#[doc = "…"]` documented with examples.
+
+## Build & Commands (the agent should run these)
+- `cargo clippy --workspace --all-features -- -D warnings`
+- `cargo test --workspace --all-features`
+- `cargo run -p cinder_browser --example minimal`
+
+## External Tools & Context
+- You **may** use **Context7 MCP** to fetch up-to-date docs/specs when uncertain (HTML/CSS specs, wgpu, harfbuzz, etc.).
+- Prefer primary sources; include permalinks in PR descriptions.
+
+## Boundaries per crate
+- `parser`: HTML5 tokenizer/state machine (spec-driven), produces DOM nodes.
+- `css`: parser + selector engine; cascade & computed styles.
+- `layout`: block/inline layout; later: flex, text shaping hooks.
+- `paint`: display list + backends (software raster first; `wgpu` optional).
+- `net`: HTTP(S), caching, gzip/deflate; async via `tokio` feature.
+- `jsrt`: embed JS engine later (trait boundary now, impl behind feature).
+
+## Definition of Done (for AI and humans)
+- Compiles on Windows/macOS/Linux.
+- New APIs have examples and tests.
+- Benchmarks added for hot paths.
+- No broken docs: `cargo doc --no-deps` passes.
+
+## Things to avoid
+- Over-eager dependencies; keep core minimal.
+- Leaking platform types across crate boundaries.
+- Unbounded `unsafe`; if needed, document invariants and add tests/fuzzing.
