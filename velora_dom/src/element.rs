@@ -70,8 +70,8 @@ impl Element {
             "class" => self.classes = value.split_whitespace().map(|s| s.to_string()).collect(),
             "style" => self.style = Some(value.clone()),
             _ => {
-                if name.starts_with("data-") {
-                    let key = name[5..].to_string(); // Remove "data-" prefix
+                if let Some(stripped) = name.strip_prefix("data-") {
+                    let key = stripped.to_string(); // Remove "data-" prefix
                     self.dataset.insert(key, value.clone());
                 }
             }
@@ -90,8 +90,8 @@ impl Element {
             "class" => self.classes.clear(),
             "style" => self.style = None,
             _ => {
-                if name.starts_with("data-") {
-                    let key = name[5..].to_string();
+                if let Some(stripped) = name.strip_prefix("data-") {
+                    let key = stripped.to_string();
                     self.dataset.remove(&key);
                 }
             }

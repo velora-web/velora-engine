@@ -134,8 +134,8 @@ impl Document {
         self.dom_tree.remove_child(parent_id, child_id)
     }
     
-    /// Clone the document
-    pub fn clone(&self) -> Self {
+    /// Duplicate the document
+    pub fn duplicate(&self) -> Self {
         Self {
             id: NodeId(velora_core::next_id()),
             title: self.title.clone(),

@@ -1,5 +1,12 @@
 ---
-description: Fix linter error try limit is : Limitless.
-globs: 
+description: Allow unlimited retries for linter errors.
+globs:
+  - "**/*.rs"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.js"
+  - "**/*.jsx"
 alwaysApply: true
+lint:
+  tryLimit: Limitless
 ---

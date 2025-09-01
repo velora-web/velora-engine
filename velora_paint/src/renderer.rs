@@ -1,39 +1,31 @@
-//! WGPU-based renderer for the Velora web engine
+//! Software renderer for the Velora web engine
 
 use velora_core::{VeloraResult, Size};
 
-/// Hardware-accelerated renderer using WGPU
+/// Software renderer for the Velora web engine
 #[derive(Debug)]
 pub struct Renderer {
-    /// WGPU device
-    _device: Option<()>,
-    
-    /// WGPU queue
-    _queue: Option<()>,
-    
-    /// WGPU surface
-    _surface: Option<()>,
+    /// Renderer state
+    _state: Option<()>,
 }
 
 impl Renderer {
     /// Create a new renderer
     pub fn new() -> VeloraResult<Self> {
         Ok(Self {
-            _device: None,
-            _queue: None,
-            _surface: None,
+            _state: None,
         })
     }
     
-    /// Initialize the renderer with a window
-    pub fn initialize(&mut self, _window_size: Size) -> VeloraResult<()> {
-        // TODO: Initialize WGPU device, queue, and surface
+    /// Initialize the renderer
+    pub fn initialize(&mut self, _size: Size) -> VeloraResult<()> {
+        // TODO: Initialize software renderer
         Ok(())
     }
     
     /// Render a frame
     pub fn render(&mut self) -> VeloraResult<()> {
-        // TODO: Implement frame rendering
+        // TODO: Implement software frame rendering
         Ok(())
     }
 }
@@ -51,8 +43,8 @@ mod tests {
     #[test]
     fn test_renderer_initialization() {
         let mut renderer = Renderer::new().unwrap();
-        let window_size = Size::new(800.0, 600.0);
-        let result = renderer.initialize(window_size);
+        let size = Size::new(800.0, 600.0);
+        let result = renderer.initialize(size);
         assert!(result.is_ok());
     }
     

@@ -31,11 +31,9 @@ velora-engine/
 ├── velora_dom/           # 🌳 Document Object Model implementation
 ├── velora_parser/        # 📝 HTML and CSS parsing engines
 ├── velora_layout/        # 📐 Layout algorithms (box model, flexbox, grid)
-├── velora_paint/         # 🎨 Rendering engine with WGPU integration
+├── velora_paint/         # 🎨 Rendering engine
 ├── velora_net/           # 🌐 Network layer and HTTP client
-├── velora_jsrt/          # ⚡ JavaScript runtime using Deno
-├── velora_platform/      # 🖥️ Cross-platform abstraction layer
-└── velora_browser/       # 🌐 Main application orchestrating everything
+└── velora_jsrt/          # ⚡ JavaScript runtime using Deno
 ```
 
 ## 🚀 Getting Started
@@ -44,7 +42,6 @@ velora-engine/
 
 - **Rust 1.70+** (stable channel) - The language that makes this all possible
 - **Cargo** - Rust's package manager and build system
-- **Graphics Capability** - Vulkan, Metal, or DirectX 12 compatible GPU
 
 ### Quick Start
 
@@ -56,66 +53,8 @@ cd velora-engine
 # Build the project (watch the AI magic happen)
 cargo build --release
 
-# Run the browser and experience the future
-
-## 🆕 New Tab System
-
-The Velora Browser now includes a comprehensive tab management system with modern browser features:
-
-### ✨ Tab Features
-- **Multiple tabs**: Create, switch, and close tabs independently
-- **Tab history**: Each tab maintains its own navigation history
-- **Tab persistence**: Tabs remember their state and content
-- **Tab titles**: Dynamic titles based on page content
-
-### 🧭 Navigation Controls
-- **Back/Forward buttons**: Navigate through tab history
-- **Refresh button**: Reload current page
-- **URL input field**: Direct navigation with focus support
-- **Loading indicators**: Visual feedback during page loads
-
-### ⌨️ Keyboard Shortcuts
-- `Ctrl+T`: Create new tab
-- `Ctrl+W`: Close current tab  
-- `Ctrl+R`: Refresh current tab
-- `Ctrl+L`: Focus URL input
-- `Ctrl+1-9`: Switch to tab by number
-- `Alt+Left/Right`: Navigate back/forward
-
-### 🖱️ Mouse Interactions
-- Click tabs to switch between them
-- Click close button (×) to close tabs
-- Click + button to create new tab
-- Click navigation buttons (←, →, ⟳)
-- Click URL input to edit address
-
-### 🎨 Modern UI
-- Clean, modern tab bar design
-- Responsive layout that adapts to window size
-- Cross-platform compatible interface
-- Professional browser appearance
-
-## 🚀 Getting Started with Tabs
-
-```bash
-# Run the tab example
-cargo run -p velora_browser --example tabs
-
-# Run the full browser with tab support
-cargo run -p velora_browser
-```
-
-## 🏗️ Architecture
-
-The tab system is built with a modular architecture:
-
-- **`ui.rs`**: Core tab management and UI state
-- **`ui_renderer.rs`**: Tab rendering and visual components  
-- **`input_handler.rs`**: User interaction and event handling
-- **`browser.rs`**: Integration with the main browser engine
-
-Each component is designed to be loosely coupled and easily extensible for future features.
-cargo run --bin velora_browser
+# Build the project
+cargo build --release
 ```
 
 ## 🎨 What I've Built So Far
@@ -142,9 +81,9 @@ cargo run --bin velora_browser
 - **Layout Tree**: Efficient layout tree management
 
 ### 🎨 Rendering (`velora_paint`)
-- **Renderer**: Hardware-accelerated rendering with WGPU
+- **Renderer**: Software rendering engine
 - **Shapes**: Vector graphics and shape rendering
-- **Text**: Advanced text rendering and font support
+- **Text**: Text rendering and font support
 - **Images**: Image processing and optimization
 
 ### 🌐 Networking (`velora_net`)
@@ -157,10 +96,7 @@ cargo run --bin velora_browser
 - **Bindings**: DOM and engine bindings for JavaScript
 - **Context Management**: Isolated JavaScript contexts
 
-### 🖥️ Platform Layer (`velora_platform`)
-- **Window Management**: Cross-platform window creation and management
-- **Graphics**: Platform-agnostic graphics initialization
-- **Input Handling**: Unified input processing across platforms
+
 
 ## 🔬 The Vibe Coding Movement
 
@@ -244,26 +180,20 @@ This repository is more than just code - it's a glimpse into the future of softw
 ### Basic Usage
 
 ```bash
-# Run with default demo page
-cargo run --bin velora_browser
+# Build all crates
+cargo build --workspace
 
-# Run in headless mode
-cargo run --bin velora_browser -- --headless
+# Run tests
+cargo test --workspace
 
-# Custom window size
-cargo run --bin velora_browser -- --width 1280 --height 720
-
-# Load specific HTML file
-cargo run --bin velora_browser -- --file path/to/page.html
-
-# Enable debug logging
-cargo run --bin velora_browser -- --debug
+# Generate documentation
+cargo doc --no-deps
 ```
 
 ### Development Commands
 
 ```bash
-# Quality checks (AI development standards)
+# Quality checks
 cargo clippy --workspace --all-features -- -D warnings
 
 # Run all tests
@@ -271,9 +201,6 @@ cargo test --workspace --all-features
 
 # Generate documentation
 cargo doc --no-deps
-
-# Run benchmarks
-cargo bench
 ```
 
 ## 🌟 The Future is Autonomous
@@ -293,11 +220,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Rust Community**: For creating the perfect language for AI development
-- **WGPU Team**: For modern graphics APIs that make rendering beautiful
-- **Winit Team**: For cross-platform window management
+- **Rust Community**: For creating the perfect language for development
 - **Deno Team**: For the JavaScript runtime that powers our engine
-- **The Vibe Coding Movement**: For revolutionizing how AI develops software
 
 ## 🌟 About Nova
 

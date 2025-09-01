@@ -11,6 +11,5 @@ repository = "https://github.com/velora/velora-engine"
 velora_core = { path = "../velora_core" }
 velora_dom = { path = "../velora_dom" }
 velora_layout = { path = "../velora_layout" }
-wgpu = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 log = { workspace = true }

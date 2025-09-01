@@ -47,7 +47,7 @@ impl Default for IdGenerator {
 }
 
 /// Global ID generator instance
-pub static GLOBAL_ID_GENERATOR: LazyLock<IdGenerator> = LazyLock::new(|| IdGenerator::new());
+pub static GLOBAL_ID_GENERATOR: LazyLock<IdGenerator> = LazyLock::new(IdGenerator::new);
 
 /// Generate a new global unique ID
 pub fn next_id() -> u64 {
@@ -151,26 +151,26 @@ pub mod css {
             return Some(CssValue::Keyword("none".to_string()));
         }
         
-        if s.ends_with("px") {
-            if let Ok(value) = s[..s.len() - 2].parse::<f32>() {
+        if let Some(stripped) = s.strip_suffix("px") {
+            if let Ok(value) = stripped.parse::<f32>() {
                 return Some(CssValue::Length(value, CssUnit::Px));
             }
         }
         
-        if s.ends_with("em") {
-            if let Ok(value) = s[..s.len() - 2].parse::<f32>() {
+        if let Some(stripped) = s.strip_suffix("em") {
+            if let Ok(value) = stripped.parse::<f32>() {
                 return Some(CssValue::Length(value, CssUnit::Em));
             }
         }
         
-        if s.ends_with("rem") {
-            if let Ok(value) = s[..s.len() - 3].parse::<f32>() {
+        if let Some(stripped) = s.strip_suffix("rem") {
+            if let Ok(value) = stripped.parse::<f32>() {
                 return Some(CssValue::Length(value, CssUnit::Rem));
             }
         }
         
-        if s.ends_with("%") {
-            if let Ok(value) = s[..s.len() - 1].parse::<f32>() {
+        if let Some(stripped) = s.strip_suffix("%") {
+            if let Ok(value) = stripped.parse::<f32>() {
                 return Some(CssValue::Percentage(value));
             }
         }

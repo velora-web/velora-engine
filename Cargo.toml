@@ -8,8 +8,7 @@ members = [
     "velora_paint",
     "velora_net",
     "velora_jsrt",
-    "velora_platform",
-    "velora_browser"
+    "velora_browser",
 ]
 
 [workspace.package]
@@ -32,16 +31,10 @@ env_logger = "0.11"
 # Async runtime
 tokio = { version = "1.47", features = ["full"] }
 
-# Graphics and rendering
-wgpu = "26"
-winit = "0.30"
-raw-window-handle = "0.6"
-bytemuck = { version = "1.23", features = ["derive"] }
-
 # DOM and HTML parsing
 html5ever = "0.35"
 markup5ever = "0.35"
-tendril = "0.4"
+tendril = "0.4.3"
 
 # CSS parsing and styling
 cssparser = "0.35"
@@ -52,10 +45,17 @@ selectors = "0.31"
 # deno_runtime = "0.222"
 
 # Networking
-reqwest = { version = "0.12", features = ["json"] }
-url = "2.5"
+reqwest = { version = "0.12.23", features = ["json"] }
+url = "2.5.7"
 
 # Utilities
 uuid = { version = "1.18", features = ["v4"] }
 chrono = { version = "0.4", features = ["serde"] }
 urlencoding = "2.1"
+
+
+
+# Window and GPU
+winit = "0.30.12"
+wgpu = "26.0.1"
+egui = "0.32.1"

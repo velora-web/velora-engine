@@ -1,6 +1,6 @@
 //! Rendering engine for the Velora web engine
 //! 
-//! This crate provides hardware-accelerated rendering using WGPU,
+//! This crate provides software rendering capabilities,
 //! including text rendering, shapes, and images.
 
 pub mod renderer;

@@ -3,46 +3,12 @@ name = "velora_browser"
 version = "0.1.0"
 edition = "2021"
 authors = ["Velora Engine Team"]
-description = "Main browser application that integrates all Velora web engine subsystems"
+description = "A web browser built with Velora Engine"
 license = "MIT"
 repository = "https://github.com/velora/velora-engine"
 
-[[bin]]
-name = "velora_browser"
-path = "src/main.rs"
-
 [dependencies]
-velora_core = { path = "../velora_core" }
-velora_dom = { path = "../velora_dom" }
-velora_parser = { path = "../velora_parser" }
-velora_layout = { path = "../velora_layout" }
-velora_paint = { path = "../velora_paint" }
-velora_net = { path = "../velora_net" }
-velora_jsrt = { path = "../velora_jsrt" }
-velora_platform = { path = "../velora_platform" }
-
-# Standard library dependencies
-serde = { workspace = true, features = ["derive"] }
-serde_json = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-log = { workspace = true }
-env_logger = "0.11"
-anyhow = { workspace = true }
-clap = { version = "4.5", features = ["derive"] }
-png = "0.18"
-
-[[example]]
-name = "tabs"
-path = "examples/tabs.rs"
-
-[[example]]
-name = "wgpu_test"
-path = "examples/wgpu_test.rs"
-
-[[example]]
-name = "simple_box"
-path = "examples/simple_box.rs"
-
-[[example]]
-name = "window_box"
-path = "examples/window_box.rs"
+winit = { workspace = true }
+egui = { workspace = true }
+egui-winit = "0.32.1"
+eframe = "0.32.1"
