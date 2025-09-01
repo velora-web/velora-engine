@@ -12,3 +12,17 @@ winit = { workspace = true }
 egui = { workspace = true }
 egui-winit = "0.32.1"
 eframe = "0.32.1"
+
+# Velora engine crates
+velora_parser = { path = "../velora_parser" }
+velora_dom = { path = "../velora_dom" }
+velora_net = { path = "../velora_net" }
+velora_core = { path = "../velora_core" }
+
+# Async runtime
+tokio = { version = "1.47", features = ["full"] }
+
+# Error handling
+anyhow = "1.0"
+log = "0.4"
+env_logger = "0.11"
