@@ -66,7 +66,7 @@ pub struct CssSelector {
 }
 
 /// Selector specificity (a, b, c) where a is most important
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
 pub struct SelectorSpecificity {
     pub a: u32, // ID selectors
     pub b: u32, // Class selectors, attributes, pseudo-classes
@@ -203,10 +203,10 @@ impl CssParser {
     /// Parse a CSS selector string
     pub fn parse_selector(&self, selector: &str) -> VeloraResult<CssSelector> {
         // Simplified selector parsing
-        let parts = if selector.starts_with('#') {
-            vec![SelectorPart::Id(selector[1..].to_string())]
-        } else if selector.starts_with('.') {
-            vec![SelectorPart::Class(selector[1..].to_string())]
+        let parts = if let Some(stripped) = selector.strip_prefix('#') {
+            vec![SelectorPart::Id(stripped.to_string())]
+        } else if let Some(stripped) = selector.strip_prefix('.') {
+            vec![SelectorPart::Class(stripped.to_string())]
         } else if selector == "*" {
             vec![SelectorPart::Universal]
         } else {
@@ -246,11 +246,7 @@ impl Default for CssParser {
     }
 }
 
-impl Default for SelectorSpecificity {
-    fn default() -> Self {
-        Self { a: 0, b: 0, c: 0 }
-    }
-}
+
 
 #[cfg(test)]
 mod tests {

@@ -17,7 +17,15 @@ impl PipelineManager {
             render_pipeline: None,
         }
     }
-    
+}
+
+impl Default for PipelineManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl PipelineManager {
     /// Create the render pipeline
     pub fn create_render_pipeline(&mut self, device: &Device, surface_format: TextureFormat) -> VeloraResult<()> {
         let shader = device.create_shader_module(ShaderModuleDescriptor {

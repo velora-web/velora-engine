@@ -21,7 +21,15 @@ impl BufferManager {
             index_buffer: None,
         }
     }
-    
+}
+
+impl Default for BufferManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl BufferManager {
     /// Create basic vertex and index buffers for a quad
     pub fn create_basic_buffers(&mut self, device: &Device, queue: &Queue) -> VeloraResult<()> {
         // Create a simple colored box (two triangles)

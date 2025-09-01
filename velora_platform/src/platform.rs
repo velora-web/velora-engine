@@ -16,6 +16,9 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use log::{debug, info, warn};
 
+/// Type alias for event handler functions
+type EventHandler = Box<dyn Fn(&WindowEvent) + Send + Sync>;
+
 /// Platform configuration
 #[derive(Debug, Clone)]
 pub struct PlatformConfig {
@@ -134,7 +137,7 @@ pub struct Platform {
     features: PlatformFeatures,
     
     /// Event handlers
-    event_handlers: Vec<Box<dyn Fn(&WindowEvent) + Send + Sync>>,
+    event_handlers: Vec<EventHandler>,
     
     /// Whether the platform is running
     running: bool,
@@ -281,9 +284,7 @@ impl Platform {
         
         // Store the main window if it's not already stored
         let main_window_id = main_window.inner().id();
-        if !self.windows.contains_key(&main_window_id) {
-            self.windows.insert(main_window_id, main_window.clone());
-        }
+        self.windows.entry(main_window_id).or_insert_with(|| main_window.clone());
         
         self.running = true;
         

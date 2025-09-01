@@ -41,7 +41,15 @@ impl InputHandler {
             events: Vec::new(),
         }
     }
-    
+}
+
+impl Default for InputHandler {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl InputHandler {
     /// Process an input event
     pub fn process_event(&mut self, event: InputEvent) {
         self.events.push(event);
