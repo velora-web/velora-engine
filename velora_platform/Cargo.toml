@@ -1,17 +1,18 @@
 [package]
 name = "velora_platform"
-version.workspace = true
-edition.workspace = true
-authors.workspace = true
+version = "0.1.0"
+edition = "2021"
+authors = ["Velora Engine Team"]
 description = "Cross-platform window management and graphics for the Velora web engine"
-license.workspace = true
-repository.workspace = true
+license = "MIT"
+repository = "https://github.com/velora/velora-engine"
 
 [dependencies]
 velora_core = { path = "../velora_core" }
 wgpu = { workspace = true }
 winit = { workspace = true }
 raw-window-handle = { workspace = true }
+bytemuck = { workspace = true, features = ["derive"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 log = { workspace = true }

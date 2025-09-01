@@ -5,10 +5,14 @@
 
 use velora_core::{VeloraResult, Size};
 use velora_dom::prelude::*;
-use velora_parser::prelude::*;
+use velora_parser::{HtmlParser, CssParser};
 use velora_platform::prelude::*;
-use log::{info, debug};
+use log::{info, debug, warn};
 use std::sync::Arc;
+
+use super::ui::{BrowserUI, Tab};
+use super::ui_renderer::UIRenderer;
+use super::input_handler::{InputHandler, InputEvent};
 
 /// Cross-platform browser configuration
 #[derive(Debug, Clone)]
@@ -96,6 +100,15 @@ pub struct Browser {
     
     /// Main browser window
     main_window: Option<Arc<Window>>,
+    
+    /// Browser UI components
+    ui: BrowserUI,
+    
+    /// UI renderer
+    ui_renderer: Option<UIRenderer>,
+    
+    /// Input handler
+    input_handler: InputHandler,
 }
 
 impl Browser {
@@ -110,6 +123,9 @@ impl Browser {
             document: None,
             platform: None,
             main_window: None,
+            ui: BrowserUI::new(),
+            ui_renderer: None,
+            input_handler: InputHandler::new(),
         }
     }
     
@@ -135,6 +151,9 @@ impl Browser {
         
         // Initialize parsers
         info!("HTML and CSS parsers initialized");
+        
+        // Initialize UI components
+        self.initialize_ui()?;
         
         Ok(())
     }
@@ -207,7 +226,7 @@ impl Browser {
         info!("Parsing HTML content ({} bytes)", html.len());
         
         // Parse the HTML
-        let document = self.html_parser.parse(html)?;
+        let document = self.html_parser.parse_html(html)?;
         self.document = Some(document);
         
         info!("HTML parsed successfully");
@@ -389,12 +408,27 @@ browser.run()?;
     }
     
     /// Run the cross-platform browser
-    pub fn run(&mut self) -> VeloraResult<()> {
+    pub async fn run(&mut self) -> VeloraResult<()> {
         info!("Starting cross-platform browser");
         
         // Create main window if not already created
         if self.main_window.is_none() {
             self.create_main_window()?;
+        }
+        
+        // Initialize UI renderer with the window
+        if let Some(ref window) = self.main_window {
+            if let Some(ref mut renderer) = self.ui_renderer {
+                renderer.initialize(window, self.config.window_size).await?;
+                
+                // Test render to show the UI is working
+                info!("🧪 Testing UI rendering...");
+                if let Err(e) = renderer.render_ui(&self.ui, window) {
+                    warn!("Test render failed: {}", e);
+                } else {
+                    info!("✅ Test render successful!");
+                }
+            }
         }
         
         let main_window = self.main_window
@@ -450,6 +484,131 @@ browser.run()?;
         self.main_window = None;
         
         info!("Browser cleanup complete");
+    }
+    
+    /// Initialize UI components
+    pub fn initialize_ui(&mut self) -> VeloraResult<()> {
+        info!("Initializing browser UI components");
+        
+        // Initialize UI renderer (will be fully initialized when we have a window)
+        let renderer = UIRenderer::new()?;
+        self.ui_renderer = Some(renderer);
+        
+        // Update UI layout
+        self.ui.update_layout(self.config.window_size);
+        
+        info!("Browser UI components initialized");
+        Ok(())
+    }
+    
+    /// Create a new tab
+    pub fn create_tab(&mut self, url: String) -> String {
+        let tab_id = self.ui.create_tab(url);
+        info!("Created new tab: {}", tab_id);
+        tab_id
+    }
+    
+    /// Close the current tab
+    pub fn close_current_tab(&mut self) -> VeloraResult<()> {
+        self.ui.close_current_tab()?;
+        info!("Closed current tab");
+        Ok(())
+    }
+    
+    /// Navigate to URL in current tab
+    pub fn navigate_current_tab(&mut self, url: String) -> VeloraResult<()> {
+        self.ui.navigate_current_tab(url.clone())?;
+        info!("Navigating to: {}", url);
+        Ok(())
+    }
+    
+    /// Go back in current tab
+    pub fn go_back(&mut self) -> VeloraResult<Option<String>> {
+        let result = self.ui.go_back()?;
+        if let Some(ref url) = result {
+            info!("Navigated back to: {}", url);
+        }
+        Ok(result)
+    }
+    
+    /// Go forward in current tab
+    pub fn go_forward(&mut self) -> VeloraResult<Option<String>> {
+        let result = self.ui.go_forward()?;
+        if let Some(ref url) = result {
+            info!("Navigated forward to: {}", url);
+        }
+        Ok(result)
+    }
+    
+    /// Refresh current tab
+    pub fn refresh_current_tab(&mut self) -> VeloraResult<()> {
+        self.ui.refresh_current_tab()?;
+        info!("Refreshed current tab");
+        Ok(())
+    }
+    
+    /// Switch to a specific tab
+    pub fn switch_to_tab(&mut self, tab_id: &str) -> VeloraResult<()> {
+        self.ui.switch_to_tab(tab_id)?;
+        info!("Switched to tab: {}", tab_id);
+        Ok(())
+    }
+    
+    /// Handle input event
+    pub fn handle_input_event(&mut self, event: InputEvent) -> VeloraResult<()> {
+        self.input_handler.handle_event(event, &mut self.ui)?;
+        Ok(())
+    }
+    
+    /// Render the UI
+    pub fn render_ui(&mut self) -> VeloraResult<()> {
+        if let Some(ref mut renderer) = self.ui_renderer {
+            if let Some(ref window) = self.main_window {
+                renderer.render_ui(&self.ui, window)?;
+            }
+        }
+        Ok(())
+    }
+    
+    /// Get current tab information
+    pub fn get_current_tab(&self) -> Option<&Tab> {
+        self.ui.tab_bar.get_active_tab()
+    }
+    
+    /// Get tab count
+    pub fn get_tab_count(&self) -> usize {
+        self.ui.tab_bar.tab_count()
+    }
+    
+    /// Handle window resize
+    pub fn handle_window_resize(&mut self, new_size: Size) -> VeloraResult<()> {
+        // Update UI layout for new size
+        self.ui.update_layout(new_size);
+        
+        // Resize UI renderer
+        if let Some(ref mut renderer) = self.ui_renderer {
+            renderer.resize(new_size)?;
+        }
+        
+        Ok(())
+    }
+    
+    /// Create a test image to demonstrate UI rendering
+    pub fn create_test_image(&mut self, filename: &str) -> VeloraResult<()> {
+        info!("Creating test UI image: {}", filename);
+        
+        // Create a simple test UI state
+        self.ui.create_tab("https://example.com".to_string());
+        self.ui.create_tab("https://google.com".to_string());
+        
+        // Navigate to some URLs to populate history
+        self.ui.navigate_current_tab("https://rust-lang.org".to_string())?;
+        
+        // Render the UI
+        self.render_ui()?;
+        
+        info!("Test image created successfully");
+        Ok(())
     }
 }
 

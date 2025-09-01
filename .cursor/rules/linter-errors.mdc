@@ -1,0 +1,5 @@
+---
+description: Fix linter error try limit is : Limitless.
+globs: 
+alwaysApply: true
+---

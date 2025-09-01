@@ -5,7 +5,7 @@ use velora_core::error::PlatformError;
 use winit::{
     event::{Event, WindowEvent as WinitWindowEvent},
     event_loop::EventLoop,
-    window::{Window as WinitWindow, WindowBuilder as WinitWindowBuilder},
+    window::{Window as WinitWindow, WindowAttributes},
     dpi::LogicalSize,
 };
 use std::sync::Arc;
@@ -120,7 +120,7 @@ impl WindowBuilder {
     pub fn build(self, event_loop: &EventLoop<()>) -> VeloraResult<Window> {
         debug!("Building window with config: {:?}", self.config);
         
-        let mut builder = WinitWindowBuilder::new()
+        let mut attributes = WindowAttributes::default()
             .with_title(&self.config.title)
             .with_inner_size(LogicalSize::new(
                 self.config.size.width,
@@ -130,15 +130,16 @@ impl WindowBuilder {
             .with_decorations(self.config.decorated);
         
         if self.config.maximized {
-            builder = builder.with_maximized(true);
+            attributes = attributes.with_maximized(true);
         }
         
         if !self.config.visible {
-            builder = builder.with_visible(false);
+            attributes = attributes.with_visible(false);
         }
         
-        let winit_window = builder
-            .build(event_loop)
+        #[allow(deprecated)]
+        let winit_window = event_loop
+            .create_window(attributes)
             .map_err(|e| VeloraError::Platform(PlatformError::WindowCreation(e.to_string())))?;
         
         if self.config.fullscreen {

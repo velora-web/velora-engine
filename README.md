@@ -57,6 +57,64 @@ cd velora-engine
 cargo build --release
 
 # Run the browser and experience the future
+
+## 🆕 New Tab System
+
+The Velora Browser now includes a comprehensive tab management system with modern browser features:
+
+### ✨ Tab Features
+- **Multiple tabs**: Create, switch, and close tabs independently
+- **Tab history**: Each tab maintains its own navigation history
+- **Tab persistence**: Tabs remember their state and content
+- **Tab titles**: Dynamic titles based on page content
+
+### 🧭 Navigation Controls
+- **Back/Forward buttons**: Navigate through tab history
+- **Refresh button**: Reload current page
+- **URL input field**: Direct navigation with focus support
+- **Loading indicators**: Visual feedback during page loads
+
+### ⌨️ Keyboard Shortcuts
+- `Ctrl+T`: Create new tab
+- `Ctrl+W`: Close current tab  
+- `Ctrl+R`: Refresh current tab
+- `Ctrl+L`: Focus URL input
+- `Ctrl+1-9`: Switch to tab by number
+- `Alt+Left/Right`: Navigate back/forward
+
+### 🖱️ Mouse Interactions
+- Click tabs to switch between them
+- Click close button (×) to close tabs
+- Click + button to create new tab
+- Click navigation buttons (←, →, ⟳)
+- Click URL input to edit address
+
+### 🎨 Modern UI
+- Clean, modern tab bar design
+- Responsive layout that adapts to window size
+- Cross-platform compatible interface
+- Professional browser appearance
+
+## 🚀 Getting Started with Tabs
+
+```bash
+# Run the tab example
+cargo run -p velora_browser --example tabs
+
+# Run the full browser with tab support
+cargo run -p velora_browser
+```
+
+## 🏗️ Architecture
+
+The tab system is built with a modular architecture:
+
+- **`ui.rs`**: Core tab management and UI state
+- **`ui_renderer.rs`**: Tab rendering and visual components  
+- **`input_handler.rs`**: User interaction and event handling
+- **`browser.rs`**: Integration with the main browser engine
+
+Each component is designed to be loosely coupled and easily extensible for future features.
 cargo run --bin velora_browser
 ```
 

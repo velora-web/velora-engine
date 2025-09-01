@@ -1,11 +1,11 @@
 [package]
 name = "velora_parser"
-version.workspace = true
-edition.workspace = true
-authors.workspace = true
+version = "0.1.0"
+edition = "2021"
+authors = ["Velora Engine Team"]
 description = "HTML and CSS parser for the Velora web engine"
-license.workspace = true
-repository.workspace = true
+license = "MIT"
+repository = "https://github.com/velora/velora-engine"
 
 [dependencies]
 velora_core = { path = "../velora_core" }

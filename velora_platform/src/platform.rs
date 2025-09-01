@@ -6,6 +6,7 @@
 use velora_core::{VeloraResult, VeloraError, Size, Point};
 use velora_core::error::PlatformError;
 use super::window::{Window, WindowBuilder, WindowEvent};
+use super::graphics::GraphicsConfig;
 use winit::{
     event::{Event, WindowEvent as WinitWindowEvent},
     event_loop::EventLoop,
@@ -14,6 +15,85 @@ use winit::{
 use std::collections::HashMap;
 use std::sync::Arc;
 use log::{debug, info, warn};
+
+/// Platform configuration
+#[derive(Debug, Clone)]
+pub struct PlatformConfig {
+    /// Window title
+    pub window_title: String,
+    
+    /// Window size
+    pub window_size: Size,
+    
+    /// Graphics configuration
+    pub graphics: GraphicsConfig,
+}
+
+impl Default for PlatformConfig {
+    fn default() -> Self {
+        Self {
+            window_title: "Velora Engine".to_string(),
+            window_size: Size::new(800.0, 600.0),
+            graphics: GraphicsConfig::default(),
+        }
+    }
+}
+
+/// Platform builder for creating platforms with custom configurations
+pub struct PlatformBuilder {
+    config: PlatformConfig,
+}
+
+impl PlatformBuilder {
+    /// Create a new platform builder with default configuration
+    pub fn new() -> Self {
+        Self {
+            config: PlatformConfig::default(),
+        }
+    }
+    
+    /// Set the window title
+    pub fn with_window_title(mut self, title: String) -> Self {
+        self.config.window_title = title;
+        self
+    }
+    
+    /// Set the window size
+    pub fn with_window_size(mut self, size: Size) -> Self {
+        self.config.window_size = size;
+        self
+    }
+    
+    /// Set the graphics configuration
+    pub fn with_graphics(mut self, graphics: GraphicsConfig) -> Self {
+        self.config.graphics = graphics;
+        self
+    }
+    
+    /// Build the platform
+    pub fn build(self) -> VeloraResult<Platform> {
+        debug!("Building platform with config: {:?}", self.config);
+        
+        let event_loop = EventLoop::new()
+            .map_err(|e| VeloraError::Platform(PlatformError::GraphicsInit(e.to_string())))?;
+        
+        let window = WindowBuilder::new()
+            .with_title(&self.config.window_title)
+            .with_size(self.config.window_size)
+            .build(&event_loop)?;
+        
+        let platform = Platform::new_with_event_loop(event_loop, window)?;
+        
+        info!("Platform created successfully");
+        Ok(platform)
+    }
+}
+
+impl Default for PlatformBuilder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 /// Cross-platform platform features
 #[derive(Debug, Clone)]
@@ -80,6 +160,33 @@ impl Platform {
             event_handlers: Vec::new(),
             running: false,
         })
+    }
+    
+    /// Create a new platform instance with an existing event loop and window
+    pub fn new_with_event_loop(event_loop: EventLoop<()>, main_window: Window) -> VeloraResult<Self> {
+        debug!("Initializing cross-platform platform with existing event loop");
+        
+        // Detect platform features
+        let features = Self::detect_platform_features();
+        
+        let window_id = main_window.inner().id();
+        let mut windows = HashMap::new();
+        windows.insert(window_id, Arc::new(main_window));
+        
+        info!("Cross-platform initialized with existing event loop and features: {:?}", features);
+        
+        Ok(Self {
+            event_loop: Some(event_loop),
+            windows,
+            features,
+            event_handlers: Vec::new(),
+            running: false,
+        })
+    }
+    
+    /// Create a new platform builder
+    pub fn builder() -> PlatformBuilder {
+        PlatformBuilder::new()
     }
     
     /// Detect platform features
@@ -185,6 +292,7 @@ impl Platform {
         let event_handlers = &self.event_handlers;
         
         // Run the event loop
+        #[allow(deprecated)]
         let result = event_loop.run(move |event, elwt| {
             match event {
                 Event::WindowEvent { window_id, event } => {

@@ -1,25 +1,31 @@
-//! Cross-platform window management and graphics for the Velora web engine
+//! Platform abstraction layer for the Velora web engine
 //! 
-//! This crate provides platform-independent abstractions for:
-//! - Window creation and management
-//! - Graphics context initialization
+//! This crate provides cross-platform abstractions for:
+//! - Window management using winit
+//! - Graphics rendering using WGPU
 //! - Input handling
-//! - Platform-specific optimizations
+//! - Platform-specific features
 
 pub mod window;
 pub mod graphics;
 pub mod input;
 pub mod platform;
 
-pub use window::{Window, WindowBuilder, WindowEvent};
-pub use graphics::{GraphicsContext, GraphicsConfig};
-pub use input::{InputHandler, InputEvent};
-pub use platform::{Platform, PlatformFeatures};
+pub use window::{Window, WindowBuilder, WindowEvent, WindowConfig};
+pub use graphics::{GraphicsContext, GraphicsConfig, Vertex};
+pub use input::InputHandler;
+pub use platform::{Platform, PlatformBuilder, PlatformConfig};
 
-/// Re-export commonly used items for convenience
+// Re-export common types
+pub use velora_core::{VeloraResult, Size, Point};
+
+/// Platform prelude module for easy importing
 pub mod prelude {
-    pub use super::window::{Window, WindowBuilder, WindowEvent};
-    pub use super::graphics::{GraphicsContext, GraphicsConfig};
-    pub use super::input::{InputHandler, InputEvent};
-    pub use super::platform::{Platform, PlatformFeatures};
+    pub use super::{
+        Window, WindowBuilder, WindowEvent, WindowConfig,
+        GraphicsContext, GraphicsConfig, Vertex,
+        InputHandler,
+        Platform, PlatformBuilder, PlatformConfig,
+        VeloraResult, Size, Point,
+    };
 }

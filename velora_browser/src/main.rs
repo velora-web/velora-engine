@@ -15,9 +15,13 @@ use anyhow::Result;
 
 use velora_core::Size;
 use velora_dom::prelude::*;
-use velora_parser::prelude::*;
+use velora_parser::{HtmlParser, CssParser};
 
 pub mod browser;
+pub mod ui;
+pub mod ui_renderer;
+pub mod input_handler;
+
 use browser::{Browser, BrowserConfig};
 
 /// Command line arguments for the Velora browser
@@ -121,7 +125,7 @@ impl VeloraBrowser {
         info!("Parsing HTML content ({} bytes)", html.len());
         
         // Parse the HTML
-        let document = self.html_parser.parse(html)?;
+        let document = self.html_parser.parse_html(html)?;
         self.document = Some(document);
         
         info!("HTML parsed successfully");
@@ -314,7 +318,7 @@ browser.run()?;
             let mut browser = Browser::new(config);
             browser.initialize()?;
             browser.load_url("demo").await?;
-            browser.run()?;
+            browser.run().await?;
             
             Ok(())
         }
